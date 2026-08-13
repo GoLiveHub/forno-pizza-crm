@@ -1,0 +1,80 @@
+﻿<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Forno CRM</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23E1251B'/%3E%3Ctext x='16' y='23' font-size='18' text-anchor='middle' fill='%23fff' font-family='Georgia'%3EF%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,600;0,700;1,400&family=Fraunces:ital,wght@1,400;1,600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css?v=3">
+<link rel="stylesheet" href="css/base.css?v=3">
+<link rel="stylesheet" href="css/app.css?v=3">
+<link rel="stylesheet" href="css/orders.css?v=1">
+<link rel="stylesheet" href="css/customize.css?v=1">
+<link rel="stylesheet" href="css/couriers.css?v=1">
+<link rel="stylesheet" href="css/dashboard.css?v=1">
+<link rel="stylesheet" href="css/polish.css?v=11">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <button class="sidebar__burger" id="burger" type="button" aria-label="Меню">&#9776;</button>
+    <div class="sidebar__logo"><b>Forno</b><span>CRM</span></div>
+    <nav class="nav" id="nav"></nav>
+    <div class="sidebar__foot">
+      <div class="sidebar__user">
+        <div>
+          <div class="sidebar__user-name" id="userName"></div>
+          <div class="sidebar__user-role" id="userRole"></div>
+        </div>
+        <button class="btn-logout" id="logout" type="button">Вийти</button>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="topbar__title" id="topTitle"></div>
+      <div class="topbar__right">
+        <select id="themeSelect" class="mini-select" aria-label="Тема">
+          <option value="light">Світла тема</option>
+          <option value="dark">Темна тема</option>
+          <option value="system">Як у системі</option>
+        </select>
+        <select id="currSelect" class="mini-select" aria-label="Валюта">
+          <option value="uah">грн</option>
+          <option value="rub">руб</option>
+        </select>
+        <span id="i18nSlot" class="i18n-slot"></span>
+        <span id="topDate"></span>
+      </div>
+    </header>
+    <main class="view" id="view">
+      <div class="center-box"><div class="spinner"></div></div>
+    </main>
+  </div>
+</div>
+
+<script src="js/i18n.js?v=19"></script>
+<script src="js/api.js?v=3"></script>
+<script src="js/ui.js?v=6"></script>
+<script src="js/modules/pos.js?v=8"></script>
+<script src="js/modules/orders.js?v=5"></script>
+<script src="js/modules/menu.js?v=9"></script>
+<script src="js/modules/stock.js?v=5"></script>
+<script src="js/modules/clients.js?v=4"></script>
+<script src="js/modules/kds.js?v=4"></script>
+<script src="js/modules/chat.js?v=4"></script>
+<script src="js/modules/reports.js?v=4"></script>
+<script src="js/modules/dashboard.js?v=1"></script>
+<script src="js/modules/discounts.js?v=4"></script>
+<script src="js/modules/users.js?v=4"></script>
+<script src="js/modules/couriers.js?v=3"></script>
+<script src="js/modules/settings.js?v=7"></script>
+<script src="js/modules/audit.js?v=4"></script>
+<script src="js/app.js?v=10"></script>
+</body>
+</html>

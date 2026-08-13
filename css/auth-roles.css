@@ -1,0 +1,55 @@
+/* Демо-вход за роллю (Этап 7). Отдельный файл — не трогает существующие стили входа. */
+.auth-roles {
+  margin-top: var(--sp-5);
+  border-top: 1px solid var(--line);
+  padding-top: var(--sp-4);
+}
+.auth-roles__title {
+  font-size: var(--fs-sm);
+  color: var(--ink-3);
+  margin-bottom: var(--sp-3);
+}
+.auth-roles__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.auth-role {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg-soft);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color .15s ease, background .15s ease;
+}
+.auth-role:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.auth-role__dot {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  font-size: var(--fs-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.auth-role__name {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--ink-1);
+  line-height: 1.15;
+}
+
+@media (max-width: 480px) {
+  .auth-roles__grid { grid-template-columns: 1fr; }
+}

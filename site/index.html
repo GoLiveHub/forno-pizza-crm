@@ -1,0 +1,118 @@
+﻿<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Forno Pizza — замовити піцу</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700&family=Fraunces:ital,wght@1,400;1,600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/customize.css?v=2">
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap top__in">
+    <div class="logo"><b>Forno</b><span>pizza</span></div>
+    <nav class="top__nav">
+      <a href="#menu">Меню</a>
+      <a href="#how">Як замовити</a>
+      <a href="#order">Статус замовлення</a>
+    </nav>
+    <button class="cart-btn" id="cartBtn" type="button">Кошик <span id="cartCount">0</span></button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <p class="hero__eyebrow">неаполітанська піца в центрі Києва</p>
+    <h1>Справжня піца<br>на вугільному <em>вогні</em></h1>
+    <p class="hero__sub">Готуємо тісто 48 годин, томати Сан-Марцано, моцарела ді буфала. Доставляємо за 45 хвилин.</p>
+    <a class="btn" href="#menu">Переглянути меню &darr;</a>
+  </div>
+</section>
+
+<section class="menu" id="menu">
+  <div class="wrap">
+    <h2 class="section-title">Меню</h2>
+    <div class="cats" id="cats"></div>
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="gridEmpty" hidden>Тут порожньо</div>
+  </div>
+</section>
+
+<section class="how" id="how">
+  <div class="wrap">
+    <h2 class="section-title">Як замовити</h2>
+    <div class="how__cols">
+      <div><b>1</b><p>Оберіть позиції в кошик</p></div>
+      <div><b>2</b><p>Вкажіть доставку або самовивіз</p></div>
+      <div><b>3</b><p>Оплатіть готівкою, карткою або онлайн</p></div>
+      <div><b>4</b><p>Слідкуйте за статусом на цій сторінці</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="status" id="order">
+  <div class="wrap">
+    <h2 class="section-title">Статус замовлення та чат</h2>
+    <p class="status__hint">Введіть номер і телефон, щоб побачити статус і написати нам.</p>
+    <form class="status__form" id="statusForm">
+      <input id="stNum" placeholder="Номер, напр. F-0001" maxlength="8" required>
+      <input id="stPhone" placeholder="Телефон, напр. +380 67 000 00 00" maxlength="18" required>
+      <button class="btn" type="submit">Показати</button>
+    </form>
+    <div class="order-card" id="orderCard" hidden></div>
+    <div class="empty" id="orderEmpty" hidden></div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">Forno Pizza &middot; вул. Хрещатик, 1, Київ &middot; +380 00 000 0000</div>
+</footer>
+
+<!-- Кошик -->
+<div class="drawer-overlay" id="drawerOverlay"></div>
+<aside class="drawer" id="drawer" aria-label="Кошик">
+  <div class="drawer__head"><b>Кошик</b><button class="drawer__close" id="drawerClose" type="button">&times;</button></div>
+  <div class="drawer__items" id="drawerItems"></div>
+  <div class="drawer__sum" id="drawerSum"></div>
+  <form class="drawer__form" id="checkoutForm">
+    <div class="row2">
+      <input id="coPhone" placeholder="Телефон" maxlength="18">
+      <input id="coName" placeholder="Ім'я *" maxlength="40" required>
+    </div>
+    <div class="mode-toggle" id="modeToggle">
+      <button type="button" class="is-active" data-mode="courier">Доставка</button>
+      <button type="button" data-mode="pickup">Самовивіз</button>
+    </div>
+    <div class="addr" id="addrBlock">
+      <div class="row2">
+        <input id="coStreet" placeholder="Вулиця *" maxlength="90">
+        <input id="coHouse" placeholder="Будинок *" maxlength="10">
+      </div>
+      <div class="row2">
+        <input id="coFlat" placeholder="Квартира" maxlength="10">
+        <input id="coEntrance" placeholder="Під'їзд / домофон" maxlength="30">
+      </div>
+    </div>
+    <select id="coPay">
+      <option value="cash">Готівка</option>
+      <option value="card_at_door">Картка при видачі</option>
+      <option value="card_online">Картка онлайн</option>
+    </select>
+    <div class="promo">
+      <input id="coPromo" placeholder="Промокод" maxlength="20">
+    </div>
+    <textarea id="coComment" rows="2" placeholder="Коментар до замовлення" maxlength="300"></textarea>
+    <label class="consent"><input type="checkbox" id="coConsent" required> Погоджуюсь з обробкою персональних даних</label>
+    <button class="btn btn--accent btn--block" id="coSubmit" type="submit">Замовити: <span id="coTotal">0 грн</span></button>
+    <div class="err" id="coErr"></div>
+  </form>
+</aside>
+
+<script src="js/i18n.js?v=17"></script>
+<script src="js/app.js?v=6"></script>
+</body>
+</html>

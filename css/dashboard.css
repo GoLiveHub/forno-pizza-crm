@@ -1,0 +1,15 @@
+/* Дашборд: сітка карток, статуси, великий індикатор часу приготування */
+.dash-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+
+.dash-card { padding: 16px; }
+
+.dash-title { font-size: var(--fs-md, 15px); font-weight: 600; margin: 0 0 12px; color: var(--ink-2, #555); }
+
+.dash-statuses { display: flex; flex-direction: column; gap: 8px; }
+
+.dash-status { display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; background: var(--bg-soft, #f7f2ec); border-radius: 6px; font-size: var(--fs-sm, 13px); }
+.dash-status b { color: var(--ink-2, #555); font-weight: 600; }
+.dash-status span { font-family: var(--font-mono, monospace); font-weight: 700; color: var(--accent, #E1251B); }
+
+.dash-big { font-family: var(--font-mono, monospace); font-weight: 700; font-size: var(--fs-2xl, 26px); color: var(--accent, #E1251B); text-align: center; padding: 18px 0; }
+.dash-big small { font-size: 14px; color: var(--ink-3, #999); font-weight: 400; }
