@@ -47,7 +47,7 @@ php -S localhost:8000
 
 ## Демо-страница
 
-Публичная витрина доступна на GitHub Pages: **https://wellqx.github.io/forno-pizza-crm/**
+Публичная витрина доступна на GitHub Pages: **https://golivehub.github.io/forno-pizza-crm/**
 
 Это статическая демонстрация: меню встроено в `site/js/app.js`, заказы не принимаются (GitHub Pages не выполняет PHP). Полноценная работа витрины — только локально с бэкендом.
 
