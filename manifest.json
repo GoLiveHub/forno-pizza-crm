@@ -1,29 +1,53 @@
 {
-  "version": "a84180665fc6",
+  "version": "7e46dab9feee",
   "files": [
     {
-      "path": "admin.html"
+      "path": "login.html"
     },
     {
-      "path": "css/tokens.min.css"
+      "path": "app.html"
     },
     {
-      "path": "css/base.min.css"
+      "path": "css/tokens.css"
     },
     {
-      "path": "css/sections/admin.min.css"
+      "path": "css/base.css"
     },
     {
-      "path": "css/motion.min.css"
+      "path": "css/app.css"
     },
     {
-      "path": "js/i18n.min.js"
+      "path": "css/orders.css"
     },
     {
-      "path": "js/admin.min.js"
+      "path": "css/customize.css"
     },
     {
-      "path": "js/reveal.min.js"
+      "path": "css/auth.css"
+    },
+    {
+      "path": "css/auth-roles.css"
+    },
+    {
+      "path": "css/polish.css"
+    },
+    {
+      "path": "js/i18n.js"
+    },
+    {
+      "path": "js/api.js"
+    },
+    {
+      "path": "js/ui.js"
+    },
+    {
+      "path": "js/login.js"
+    },
+    {
+      "path": "js/modules/pos.js"
+    },
+    {
+      "path": "js/app.js"
     },
     {
       "path": "api/auth.php"
@@ -32,16 +56,25 @@
       "path": "api/config.php"
     },
     {
-      "path": "api/forno_db.php"
+      "path": "api/db.php"
     },
     {
-      "path": "api/menu.php"
+      "path": "api/helpers.php"
+    },
+    {
+      "path": "api/orders_core.php"
+    },
+    {
+      "path": "api/pos.php"
     },
     {
       "path": "api/orders.php"
     },
     {
-      "path": "api/submit_order.php"
+      "path": "api/couriers.php"
+    },
+    {
+      "path": "api/settings.php"
     }
   ]
 }

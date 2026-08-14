@@ -1,0 +1,56 @@
+﻿<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Вхід - Forno CRM</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23E1251B'/%3E%3Ctext x='16' y='23' font-size='18' text-anchor='middle' fill='%23fff' font-family='Georgia'%3EF%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,600;0,700;1,400&family=Fraunces:ital,wght@1,400;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css?v=1">
+<link rel="stylesheet" href="css/base.css?v=1">
+<link rel="stylesheet" href="css/auth.css?v=1">
+<link rel="stylesheet" href="css/auth-roles.css?v=1">
+<link rel="stylesheet" href="css/polish.css?v=1">
+</head>
+<body>
+<div class="auth-wrap">
+  <aside class="auth-side">
+    <div class="auth-side__logo">Forno&nbsp;CRM</div>
+    <div>
+      <h1 class="auth-side__title">Управління піцерією в одному вікні</h1>
+      <p class="auth-side__sub">Каса, замовлення з сайту, кухня, склад, клієнти і звіти.</p>
+    </div>
+    <div class="auth-side__note">Працює локально на вашому сервері</div>
+    <div class="auth-diamond"></div>
+  </aside>
+  <main class="auth-main">
+    <div class="auth-card">
+      <span class="eyebrow">Службовий вхід</span>
+      <h1>Вхід до системи</h1>
+      <p class="sub">Тільки для персоналу закладу</p>
+      <div class="auth-error" id="authError" role="alert"></div>
+      <form class="auth-form" id="loginForm" novalidate>
+        <div class="field">
+          <label for="username">Логін</label>
+          <input id="username" name="username" autocomplete="username" required>
+        </div>
+        <div class="field">
+          <label for="password">Пароль</label>
+          <input id="password" name="password" type="password" autocomplete="current-password" required>
+        </div>
+        <button class="btn btn--accent" id="loginBtn" type="submit">Увійти</button>
+      </form>
+      <div class="auth-roles">
+        <div class="auth-roles__title">Демо-вхід за роллю</div>
+        <div class="auth-roles__grid" id="roleGrid"></div>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="js/i18n.js?v=17"></script>
+<script src="js/api.js?v=1"></script>
+<script src="js/login.js?v=2"></script>
+</body>
+</html>

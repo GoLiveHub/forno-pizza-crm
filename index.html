@@ -44,7 +44,7 @@
 		if (e.data && e.data.type === READY) {
 			done = true;
 			status('Готово', 100);
-			setTimeout(function () { location.replace('./admin.html'); }, 350);
+			setTimeout(function () { location.replace('./login.html'); }, 350);
 		} else if (e.data && e.data.type === 'forno-error') {
 			status('Помилка PHP: ' + (e.data.error || 'невідома'), 100);
 		}

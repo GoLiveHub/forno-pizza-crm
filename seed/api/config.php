@@ -1,52 +1,39 @@
 <?php
 /**
- * Настройки заведения.
- *
- * Пароль админа хранится только в виде bcrypt-хэша. Смена пароля:
- *   php -r "echo password_hash('НовыйПароль', PASSWORD_DEFAULT);"
- * получившуюся строку вставить в admin_pass_hash.
+ * Конфигурация CRM пиццерии.
+ * Настройки под каждый запуск. Изменять перед продакшеном.
  */
 
-return [
-    // Домен сайта (используется в тексте заказов и ответах API).
-    'site_domain'     => 'forno.example',
-    // Логин админа
-    'admin_user'      => 'admin',
-    // Пароль НЕ хранится в этом файле в открытом виде - только bcrypt-хэш.
-    'admin_pass_hash' => '$2y$10$QwfpWkE8JyaZptkfv//pYejkeMbqI8DyHlRRF6rpRYa2afj41P6z2',
+define('APP_NAME', 'Forno CRM');
+define('APP_DOMAIN', 'pizzarcm.local');
+define('APP_BASE', '/');
+define('DB_PATH', __DIR__ . '/../data/crm.db');
 
-    // Здесь нужно вписать апи от вашего бота для того чтобы вы получали уведомления о заказах.
-    // Как настроить: создать бота через @BotFather, написать ему любое сообщение,
-    // затем выполнить https://api.telegram.org/bot<ТОКЕН>/getUpdates и из ответа
-    // взять chat.id. Пустые поля = уведомления выключены.
-    'telegram_bot_token' => '',
-    'telegram_chat_id'   => '',
+// Сессия
+define('SESSION_NAME', 'FORNO_CRM_SESS');
+define('SESSION_TTL', 60 * 60 * 8); // 8 часов
 
-    // Доверенные прокси (Cloudflare/nginx). Если сайт стоит за прокси, впишите
-    // его IP сюда - тогда rate limit считает реальный IP клиента из
-    // X-Forwarded-For, а не адрес прокси. Пусто = прокси нет, всё по REMOTE_ADDR.
-    'trusted_proxies'   => [],
+// Rate limit на вход
+define('LOGIN_MAX_ATTEMPTS', 6);
+define('LOGIN_WINDOW_SEC', 60);
 
-    // Rate limit на приём заказов: не больше max заказов за window секунд с одного IP
-    'rate_limit_max'    => 6,
-    'rate_limit_window' => 60,
+// Приём заказов с сайта (order_in)
+define('ORDER_MAX_PER_MIN', 10);           // общий лимит на IP
+define('ORDER_SITE_KEY', 'change-me-site-key'); // секретный ключ сайта-витрины
 
-    // Rate limit на ВХОД в админку: не больше max попыток за window секунд с одного IP
-    // (защита от перебора пароля; bcrypt и так замедляет перебор, но лимит обязателен)
-    'login_rate_limit_max'    => 5,
-    'login_rate_limit_window' => 300,
+// Печать чека
+define('RECEIPT_HEADER', 'Forno Pizza');
 
-    // Хранение заказов: заказы старше этого срока удаляются автоматически.
-    // Срок декларирован в privacy.html. 0 = не удалять никогда.
-    'orders_retention_days' => 730,
+// Онлайн-оплата (LiqPay). Пустые значения = демо-режим (заказ помечается demo, без реального шлюза).
+define('LIQPAY_PUBLIC_KEY', '');
+define('LIQPAY_PRIVATE_KEY', '');
+define('LIQPAY_MODE', 'sandbox'); // sandbox | live
 
-    // Города доставки: заказ принимается только из них. Держать в синхроне
-    // с window.FORNO_DELIVERY_CITIES в js/menu-data.js.
-    'delivery_cities'   => ['Київ'],
+// Telegram-уведомления (пустые = выключено)
+define('TG_BOT_TOKEN', '');
+define('TG_CHAT_ID', '');
 
-    // Самовивіз: адреса закладу і години роботи (показуються в формі замовлення
-    // і підставляються в адресу замовлення). Держать в синхроне
-    // с window.FORNO_PICKUP в js/menu-data.js.
-    'pickup_address'    => 'вул. ???, ? · Київ',
-    'pickup_hours'      => 'Щодня 12:00–23:00',
-];
+// Первый администратор (создаётся при первом запуске, если таблица пустая)
+// ВАЖНО: перед запуском задайте свой пароль.
+define('BOOTSTRAP_ADMIN', 'admin');
+define('BOOTSTRAP_PASS', 'change-me-before-launch');

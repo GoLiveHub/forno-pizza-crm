@@ -1,78 +1,85 @@
 <?php
 /**
- * Авторизация админа.
- *
- * GET  api/auth.php        -> { ok, authed }
- * POST api/auth.php        -> вход/выход
- *      {"action":"login","username":"admin","password":"..."}   -> { ok, authed }
- *      {"action":"logout"}                                      -> { ok, authed:false }
- *
- * Пароль проверяется через password_verify() против config.php. Сессия в куке
- * FORNO_SESS (HttpOnly, SameSite=Lax). После входа выдаётся CSRF-токен.
+ * Аутентификация CRM.
+ * GET  -> состояние сессии + CSRF.
+ * POST {action:login}  -> вход.
+ * POST {action:logout} -> выход.
+ * POST {action:change_password} -> смена своего пароля.
  */
 
-require_once __DIR__ . '/forno_db.php';
+require_once __DIR__ . '/helpers.php';
 
-header('Content-Type: application/json; charset=utf-8');
+h_start_session();
+crm_migrate();
+crm_seed();
 
-forno_session_start();
+$method = $_SERVER['REQUEST_METHOD'];
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    forno_respond(200, ['ok' => true, 'authed' => forno_is_admin(), 'csrf' => forno_csrf_token()]);
+if ($method === 'GET') {
+    $u = h_user();
+    h_json([
+        'ok' => true,
+        'authed' => $u !== null,
+        'user' => $u,
+        'csrf' => h_csrf_token(),
+    ]);
 }
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    forno_respond(405, ['ok' => false, 'error' => 'method not allowed']);
-}
+if ($method !== 'POST') h_error('Метод не підтримується', 405);
 
-$raw  = file_get_contents('php://input');
-$data = json_decode($raw, true);
+$d = h_input();
+$action = $d['action'] ?? '';
 
-if (!is_array($data)) {
-    forno_respond(400, ['ok' => false, 'error' => 'bad request']);
-}
+switch ($action) {
 
-$action = isset($data['action']) ? (string)$data['action'] : '';
+    case 'login':
+        h_check_origin();
+        if (!h_csrf_check($d['csrf'] ?? null)) h_error('Сесія застаріла, оновіть сторінку', 403);
+        h_rate_limit('login', LOGIN_MAX_ATTEMPTS, LOGIN_WINDOW_SEC);
 
-if ($action === 'logout') {
-    $_SESSION = [];
-    if (ini_get('session.use_cookies')) {
-        $p = session_get_cookie_params();
-        setcookie(session_name(), '', time() - 42000, $p['path'], $p['domain'], $p['secure'], $p['httponly']);
-    }
-    session_destroy();
-    forno_respond(200, ['ok' => true, 'authed' => false]);
-}
+        $username = trim((string) ($d['username'] ?? ''));
+        $password = (string) ($d['password'] ?? '');
 
-if ($action === 'login') {
-    // CSRF-токен берётся из сессии (отдаётся на GET api/auth.php и подставляется
-    // формой логина). Без него кросс-сайтовая подделка входа заблокирована,
-    // даже если SameSite почему-то не сработает.
-    if (!forno_check_csrf(isset($data['csrf']) ? (string)$data['csrf'] : '')) {
-        forno_respond(403, ['ok' => false, 'authed' => false, 'error' => 'csrf mismatch']);
-    }
+        if ($username === '' || $password === '') {
+            h_rate_hit('login');
+            h_error('Вкажіть логін і пароль', 400);
+        }
 
-    if (forno_login_rate_blocked()) {
-        forno_respond(429, ['ok' => false, 'authed' => false, 'error' => 'забагато спроб входу, зачекайте кілька хвилин']);
-    }
+        $u = db_fetch_one("SELECT * FROM users WHERE username=? AND active=1", [$username]);
+        if (!$u || !password_verify($password, $u['pass_hash'])) {
+            h_rate_hit('login');
+            h_error('Невірний логін або пароль', 401);
+        }
 
-    $cfg      = forno_config();
-    $username = isset($data['username']) ? (string)$data['username'] : '';
-    $password = isset($data['password']) ? (string)$data['password'] : '';
-
-    $ok = hash_equals((string)$cfg['admin_user'], $username)
-        && password_verify($password, (string)$cfg['admin_pass_hash']);
-
-    if ($ok) {
-        forno_login_rate_reset();
+        h_rate_clear('login');
         session_regenerate_id(true);
-        $_SESSION['admin'] = true;
-        $_SESSION['csrf']  = bin2hex(random_bytes(16));
-        forno_respond(200, ['ok' => true, 'authed' => true, 'csrf' => $_SESSION['csrf']]);
-    }
+        $_SESSION['uid'] = (int) $u['id'];
+        $_SESSION['csrf'] = h_csrf_token();
+        db_update('users', ['last_login_at' => db_now()], 'id=?', [$u['id']]);
+        crm_audit('login', 'user', (string) $u['id'], $u['username']);
 
-    forno_login_rate_hit();
-    forno_respond(401, ['ok' => false, 'authed' => false, 'error' => 'невірний логін або пароль']);
+        h_json(['ok' => true, 'user' => ['id' => (int) $u['id'], 'username' => $u['username'], 'role' => $u['role'], 'name' => $u['name']], 'csrf' => h_csrf_token()]);
+        break;
+
+    case 'logout':
+        $_SESSION = [];
+        session_destroy();
+        h_json(['ok' => true]);
+        break;
+
+    case 'change_password':
+        $u = h_require_auth();
+        if (!h_csrf_check($d['csrf'] ?? null)) h_error('Сесія застаріла', 403);
+        $old = (string) ($d['old'] ?? '');
+        $new = (string) ($d['new'] ?? '');
+        $row = db_fetch_one("SELECT pass_hash FROM users WHERE id=?", [$u['id']]);
+        if (!$row || !password_verify($old, $row['pass_hash'])) h_error('Поточний пароль невірний', 400);
+        if (strlen($new) < 6) h_error('Новий пароль занадто короткий (мінімум 6 символів)', 400);
+        db_update('users', ['pass_hash' => password_hash($new, PASSWORD_DEFAULT)], 'id=?', [$u['id']]);
+        crm_audit('change_password', 'user', (string) $u['id']);
+        h_json(['ok' => true]);
+        break;
+
+    default:
+        h_error('Невідома дія', 400);
 }
-
-forno_respond(400, ['ok' => false, 'error' => 'bad request']);

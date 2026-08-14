@@ -75890,7 +75890,7 @@ var getLibs35 = (php2) => versionTable5[php2.phpVersion].getLibs(php2);
 var php_wasm_openssl_default = { getLibs: getLibs35 };
 
 // src/sw.js
-var APP_VERSION = "a84180665fc6";
+var APP_VERSION = "7e46dab9feee";
 var swUrl = new URL(self.location.href);
 var BASE = swUrl.pathname.slice(0, swUrl.pathname.lastIndexOf("/") + 1);
 var PREFIX = BASE.replace(/\/$/, "");
@@ -75940,7 +75940,7 @@ var php = new PhpCgiWorker({
   exclude: [PREFIX + "/seed"],
   rewrite: (pathname) => {
     if (pathname === PREFIX || pathname === PREFIX + "/") {
-      return { path: "/admin.html" };
+      return { path: "/login.html" };
     }
     return void 0;
   },
@@ -75975,7 +75975,7 @@ async function seed() {
     }
   };
   await step("dirs", () => {
-    ["/persist", "/persist/www", "/persist/www/api", "/persist/www/api/data", "/persist/sessions", "/persist/tmp"].forEach(ensureDir);
+    ["/persist", "/persist/www", "/persist/www/api", "/persist/www/api/data", "/persist/www/data", "/persist/sessions", "/persist/tmp"].forEach(ensureDir);
   });
   const marker = DOCROOT + "/.app-version";
   const current = FS2.analyzePath(marker).exists ? FS2.readFile(marker, { encoding: "utf8" }) : "";
