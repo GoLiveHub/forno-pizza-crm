@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forno CRM</title>
+<style>
+	body{margin:0;font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:#F6F0E7;color:#3A2E26;display:flex;align-items:center;justify-content:center;height:100vh;-webkit-font-smoothing:antialiased}
+	.box{text-align:center;max-width:460px;padding:32px}
+	.logo{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:bold;font-size:88px;line-height:.9;color:#D94A1E;user-select:none}
+	h1{font-size:20px;font-weight:600;margin:18px 0 6px;letter-spacing:.4px}
+	.bar{margin:22px auto 0;width:220px;height:6px;border-radius:999px;background:#E6D9C8;overflow:hidden}
+	.fill{height:100%;width:0;background:#D94A1E;transition:width .35s ease}
+	.msg{margin-top:14px;font-size:13px;opacity:.65;min-height:18px}
+</style>
+</head>
+<body>
+<div class="box">
+	<div class="logo">F</div>
+	<h1>Forno CRM</h1>
+	<div class="bar"><div class="fill" id="fill"></div></div>
+	<p class="msg" id="msg">Запуск PHP у браузері...</p>
+</div>
+<script>
+(function () {
+	var MSG = document.getElementById('msg');
+	var FILL = document.getElementById('fill');
+
+	function status(t, p) {
+		if (MSG) MSG.textContent = t;
+		if (FILL) FILL.style.width = (p || 0) + '%';
+	}
+
+	if (!('serviceWorker' in navigator)) {
+		status('Ваш браузер не підтримує Service Worker', 100);
+		return;
+	}
+
+	var READY = 'forno-ready';
+	var done = false;
+
+	navigator.serviceWorker.addEventListener('message', function (e) {
+		if (done) return;
+		if (e.data && e.data.type === READY) {
+			done = true;
+			status('Готово', 100);
+			setTimeout(function () { location.replace('./admin.html'); }, 350);
+		} else if (e.data && e.data.type === 'forno-error') {
+			status('Помилка PHP: ' + (e.data.error || 'невідома'), 100);
+		}
+	});
+
+	status('Реєстрація PHP-рушія...', 12);
+
+	navigator.serviceWorker.register('./sw.js', { scope: './', type: 'module' })
+		.then(function () {
+			status('Підготовка середовища...', 45);
+			var t0 = Date.now();
+			var timer = setInterval(function () {
+				if (done) { clearInterval(timer); return; }
+				if (Date.now() - t0 > 90000) {
+					clearInterval(timer);
+					status('Час очікування вичерпано. Перезавантажте сторінку.', 90);
+				}
+			}, 500);
+		})
+		.catch(function (e) {
+			status('Помилка: ' + (e && e.message ? e.message : 'реєстрація SW'), 100);
+		});
+})();
+</script>
+</body>
+</html>

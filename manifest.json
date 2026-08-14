@@ -1,0 +1,47 @@
+{
+  "version": "a84180665fc6",
+  "files": [
+    {
+      "path": "admin.html"
+    },
+    {
+      "path": "css/tokens.min.css"
+    },
+    {
+      "path": "css/base.min.css"
+    },
+    {
+      "path": "css/sections/admin.min.css"
+    },
+    {
+      "path": "css/motion.min.css"
+    },
+    {
+      "path": "js/i18n.min.js"
+    },
+    {
+      "path": "js/admin.min.js"
+    },
+    {
+      "path": "js/reveal.min.js"
+    },
+    {
+      "path": "api/auth.php"
+    },
+    {
+      "path": "api/config.php"
+    },
+    {
+      "path": "api/forno_db.php"
+    },
+    {
+      "path": "api/menu.php"
+    },
+    {
+      "path": "api/orders.php"
+    },
+    {
+      "path": "api/submit_order.php"
+    }
+  ]
+}
