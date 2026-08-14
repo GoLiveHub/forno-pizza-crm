@@ -39,7 +39,13 @@
 
   // Демо-вхід за роллю (Етап 7). Логіни/паролі тестових користувачів.
   var DEMO_ROLES = [
+    { role: 'owner', label: 'Власник', u: 'owner', p: 'owner-2026' },
+    { role: 'admin', label: 'Адміністратор', u: 'admin', p: 'admin-2026' },
+    { role: 'manager', label: 'Менеджер', u: 'manager', p: 'manager-2026' },
+    { role: 'support', label: 'Оператор підтримки', u: 'support', p: 'support-2026' },
     { role: 'cashier', label: 'Касир', u: 'cashier', p: 'cashier-2026' },
+    { role: 'cook', label: 'Кухар', u: 'cook', p: 'cook-2026' },
+    { role: 'courier', label: 'Кур\'єр', u: 'courier', p: 'courier-2026' },
   ];
 
   function buildRoleGrid() {

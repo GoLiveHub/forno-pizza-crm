@@ -36,4 +36,4 @@ define('TG_CHAT_ID', '');
 // Первый администратор (создаётся при первом запуске, если таблица пустая)
 // ВАЖНО: перед запуском задайте свой пароль.
 define('BOOTSTRAP_ADMIN', 'admin');
-define('BOOTSTRAP_PASS', 'change-me-before-launch');
+define('BOOTSTRAP_PASS', 'admin-2026');

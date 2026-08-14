@@ -32,6 +32,15 @@
       "path": "css/polish.css"
     },
     {
+      "path": "css/couriers.css"
+    },
+    {
+      "path": "css/dashboard.css"
+    },
+    {
+      "path": "css/kds.css"
+    },
+    {
       "path": "js/i18n.js"
     },
     {
@@ -44,13 +53,49 @@
       "path": "js/login.js"
     },
     {
-      "path": "js/modules/pos.js"
-    },
-    {
       "path": "js/app.js"
     },
     {
-      "path": "api/auth.php"
+      "path": "js/modules/pos.js"
+    },
+    {
+      "path": "js/modules/orders.js"
+    },
+    {
+      "path": "js/modules/menu.js"
+    },
+    {
+      "path": "js/modules/stock.js"
+    },
+    {
+      "path": "js/modules/clients.js"
+    },
+    {
+      "path": "js/modules/kds.js"
+    },
+    {
+      "path": "js/modules/chat.js"
+    },
+    {
+      "path": "js/modules/reports.js"
+    },
+    {
+      "path": "js/modules/dashboard.js"
+    },
+    {
+      "path": "js/modules/discounts.js"
+    },
+    {
+      "path": "js/modules/users.js"
+    },
+    {
+      "path": "js/modules/couriers.js"
+    },
+    {
+      "path": "js/modules/settings.js"
+    },
+    {
+      "path": "js/modules/audit.js"
     },
     {
       "path": "api/config.php"
@@ -65,16 +110,52 @@
       "path": "api/orders_core.php"
     },
     {
+      "path": "api/auth.php"
+    },
+    {
       "path": "api/pos.php"
     },
     {
       "path": "api/orders.php"
     },
     {
+      "path": "api/menu.php"
+    },
+    {
+      "path": "api/stock.php"
+    },
+    {
+      "path": "api/clients.php"
+    },
+    {
+      "path": "api/kds.php"
+    },
+    {
+      "path": "api/chat.php"
+    },
+    {
+      "path": "api/reports.php"
+    },
+    {
+      "path": "api/dashboard.php"
+    },
+    {
+      "path": "api/discounts.php"
+    },
+    {
+      "path": "api/users.php"
+    },
+    {
       "path": "api/couriers.php"
     },
     {
       "path": "api/settings.php"
+    },
+    {
+      "path": "api/audit.php"
+    },
+    {
+      "path": "api/order_in.php"
     }
   ]
 }
