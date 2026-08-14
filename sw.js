@@ -75890,7 +75890,7 @@ var getLibs35 = (php2) => versionTable5[php2.phpVersion].getLibs(php2);
 var php_wasm_openssl_default = { getLibs: getLibs35 };
 
 // src/sw.js
-var APP_VERSION = "7e46dab9feee";
+var APP_VERSION = "7e46dab9feee-1786719020";
 var swUrl = new URL(self.location.href);
 var BASE = swUrl.pathname.slice(0, swUrl.pathname.lastIndexOf("/") + 1);
 var PREFIX = BASE.replace(/\/$/, "");
@@ -76013,15 +76013,16 @@ async function seed() {
 }
 self.addEventListener("install", (event2) => {
   console.log("[forno] install, version", APP_VERSION);
+  self.skipWaiting();
   event2.waitUntil(php.handleInstallEvent(event2));
 });
 self.addEventListener("activate", (event2) => {
   console.log("[forno] activate");
   event2.waitUntil((async () => {
     try {
-      await clients.claim();
       await php.binary;
       await seed();
+      await clients.claim();
       const clientList = await clients.matchAll({ type: "window" });
       clientList.forEach((client) => client.postMessage({ type: "forno-ready", version: APP_VERSION }));
     } catch (err2) {
