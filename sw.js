@@ -75890,7 +75890,7 @@ var getLibs35 = (php2) => versionTable5[php2.phpVersion].getLibs(php2);
 var php_wasm_openssl_default = { getLibs: getLibs35 };
 
 // src/sw.js
-var APP_VERSION = "7e46dab9feee-1786719593";
+var APP_VERSION = "7e46dab9feee-1786724819";
 var swUrl = new URL(self.location.href);
 var BASE = swUrl.pathname.slice(0, swUrl.pathname.lastIndexOf("/") + 1);
 var PREFIX = BASE.replace(/\/$/, "");
