@@ -75890,7 +75890,7 @@ var getLibs35 = (php2) => versionTable5[php2.phpVersion].getLibs(php2);
 var php_wasm_openssl_default = { getLibs: getLibs35 };
 
 // src/sw.js
-var APP_VERSION = "7e46dab9feee-1786719020";
+var APP_VERSION = "7e46dab9feee-1786719593";
 var swUrl = new URL(self.location.href);
 var BASE = swUrl.pathname.slice(0, swUrl.pathname.lastIndexOf("/") + 1);
 var PREFIX = BASE.replace(/\/$/, "");
@@ -75980,6 +75980,7 @@ async function seed() {
   const marker = DOCROOT + "/.app-version";
   const current = FS2.analyzePath(marker).exists ? FS2.readFile(marker, { encoding: "utf8" }) : "";
   const dirty = current !== APP_VERSION;
+  const wasUpdate = current !== "" && current !== APP_VERSION;
   const manifest = await step("manifest", async () => {
     const res = await fetch(new URL("manifest.json", swUrl.href));
     if (!res.ok) throw new Error("manifest status " + res.status);
@@ -76010,7 +76011,22 @@ async function seed() {
       FS2.syncfs(false, (err2) => err2 ? reject(err2) : resolve());
     }));
   });
+  return wasUpdate;
 }
+var readyFlag = false;
+var readyWaiters = [];
+function replyReady(source) {
+  try {
+    source.postMessage({ type: "forno-ready", version: APP_VERSION });
+  } catch (e) {
+  }
+}
+self.addEventListener("message", (event2) => {
+  if (event2.data && event2.data.type === "forno-ping") {
+    if (readyFlag) replyReady(event2.source);
+    else readyWaiters.push(event2.source);
+  }
+});
 self.addEventListener("install", (event2) => {
   console.log("[forno] install, version", APP_VERSION);
   self.skipWaiting();
@@ -76021,10 +76037,22 @@ self.addEventListener("activate", (event2) => {
   event2.waitUntil((async () => {
     try {
       await php.binary;
-      await seed();
+      const wasUpdate = await seed();
       await clients.claim();
+      readyFlag = true;
       const clientList = await clients.matchAll({ type: "window" });
-      clientList.forEach((client) => client.postMessage({ type: "forno-ready", version: APP_VERSION }));
+      clientList.forEach((client) => {
+        client.postMessage({ type: "forno-ready", version: APP_VERSION });
+        if (wasUpdate && client.url) {
+          const u = new URL(client.url);
+          if (u.pathname === PREFIX || u.pathname === PREFIX + "/" || u.pathname === PREFIX + "/index.html") {
+            client.navigate(u.href).catch(() => {
+            });
+          }
+        }
+      });
+      readyWaiters.forEach(replyReady);
+      readyWaiters.length = 0;
     } catch (err2) {
       console.error("[forno] activate failed:", err2 && err2.message ? err2.message : err2);
       try {

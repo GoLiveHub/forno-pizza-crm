@@ -38,13 +38,24 @@
 
 	var READY = 'forno-ready';
 	var done = false;
+	var pingTimer = null;
+
+	function finish() {
+		if (done) return;
+		done = true;
+		status('Готово', 100);
+		if (pingTimer) clearInterval(pingTimer);
+		setTimeout(function () { location.replace('./login.html'); }, 350);
+	}
+
+	function ping() {
+		var c = navigator.serviceWorker.controller;
+		if (c && c.postMessage) c.postMessage({ type: 'forno-ping' });
+	}
 
 	navigator.serviceWorker.addEventListener('message', function (e) {
-		if (done) return;
 		if (e.data && e.data.type === READY) {
-			done = true;
-			status('Готово', 100);
-			setTimeout(function () { location.replace('./login.html'); }, 350);
+			finish();
 		} else if (e.data && e.data.type === 'forno-error') {
 			status('Помилка PHP: ' + (e.data.error || 'невідома'), 100);
 		}
@@ -55,6 +66,8 @@
 	navigator.serviceWorker.register('./sw.js', { scope: './', type: 'module' })
 		.then(function () {
 			status('Підготовка середовища...', 45);
+			ping();
+			pingTimer = setInterval(ping, 800);
 			var t0 = Date.now();
 			var timer = setInterval(function () {
 				if (done) { clearInterval(timer); return; }
